@@ -8,6 +8,10 @@ const {root, schema, sse} = require('./controllers')
 
 const app = express()
 
+// Constants
+const PORT = 8080;
+const HOST = '0.0.0.0';
+
 app.use(cors())
 
 app.use('/graphql', graphqlHTTP({
