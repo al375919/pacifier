@@ -1,0 +1,29 @@
+{
+    "@context": "https://schema.org/",
+    "@type": "WebAPI",
+    "@id": "https://www.pacifier-digital.com",
+    "name": "Pacifier Digital",
+    "description": "La presente API ofrece gestionar las notificaciones del teléfono móvil de las aplicaciones instaladas, con la posibilidad de desactivarlas según el grado de ansiedad digital debido al flujo de interacciones.",
+    "provider": [{
+        "@type": "Person",
+        "name": "Krisztian Kupa Papp",
+        "email": "al375919@uji.es",
+        "jobTitle": "Developer"
+    }, 
+    {
+        "@type": "Person",
+        "name": "Nerea Marco Reverté",
+        "email": "al375880@uji.es",
+        "jobTitle": "Developer"
+    }],
+    "category": "Estadísticas de uso a tiempo real",
+    "logo": "/Users/usuari/Downloads/1053/Practica 1/Practica1/logo.png",
+    "documentation": "https://docs.google.com/document/d/1jLWVNe7o1L6vgV9Wy7IUvkAC87alYFiHVrHspdpEpSk/edit?usp=sharing",
+    "audience": {
+        "@type": "Audience",
+        "audienceType": "Usuarios de smartphones",
+        "description": "Todos los usuarios de smartphones con tendencia a sufrir ansiedad a causa de la tecnología.",
+    },
+    "slogan": "¡Descargate y chupa el chupete para calmar tu ansiedad!",
+    "termsOfService": "Al marcar la opción 'Acepto las Condiciones' de uso usted está de acuerdo en aceptar los siguientes términos y condiciones. Cualquier nueva característica o herramienta que pueda añadirse al actual servicio estarán también sujetas a los términos y condiciones de uso. Utilizando el servicio, usted ha leído estos términos y condiciones y está de acuerdo con ellos. Si usted no está de acuerdo con todos los términos y condiciones, por favor, no utilice el servicio. El Suscriptor declara tener la capacidad de contratar y disponer de autorizaciones y delegaciones necesarias para ello."
+  }

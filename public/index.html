@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>Pacifier Digital</title>
+
+    <!-- Required Stylesheets -->
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
+    />
+
+    <!-- Required scripts -->
+    <script src="//cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+  </head>
+  <body>
+    <!-- Our application root element -->
+    <div id="app">
+      <b-container>
+        <b-jumbotron header="PACIFIER DIGITAL" lead="">
+          <p>Para más información consulta:</p>
+          <b-btn variant="info" href="https://ethic.es/2021/01/tienes-ansiedad-digital/">¿Tienes ansiedad digital?</b-btn>
+        </b-jumbotron>
+        
+        <b-form-group horizontal :label-cols="4" label="Ingresa el nombre de una aplicación">
+          <b-form-input v-model.trim="name"></b-form-input>
+        </b-form-group>
+
+        <b-form-group horizontal :label-cols="4" label="Ingresa el código de una aplicación">
+          <b-form-input v-model.trim="codApp"></b-form-input>
+        </b-form-group>
+        
+        <b-form-group horizontal :label-cols="4" label="Ingresa el nivel de ansiedad una aplicación">
+          <b-form-input v-model.trim="level"></b-form-input>
+        </b-form-group>
+
+        <b-alert variant="success" :show="showAlert">
+           Registrar {{ name }}!
+           <b-button @click="insert()" size="sm"> Registrar Aplicación</b-button>
+        </b-alert>
+
+        <!--
+        <b-form-group horizontal :label-cols="4" label="Dime una app">
+          <b-form-input v-model.trim="name" placeholder="... por ejemplo Instagram" 
+                        @keyup.enter="getApps">
+          </b-form-input>
+        </b-form-group>
+     
+      <div v-if="blogs.length>0">
+        <b-card>
+       		<ul>
+        	   <p v-for="blog in blogs">
+                <b-button @click="getPosts(blog.title)">{{blog.title}}</b-button> by {{blog.creator.name}}
+             </p>
+      		</ul>
+        </b-card>
+      </div>
+      <b-card v-else variant="warning">No hay resultados</b-card>
+      
+      <b-card v-if="blogId.length > 0">
+        <p v-if="posts.length==0"> Aún no hay mensajes</p>
+          <b-table responsive :items="posts"></b-table>
+          <b-form-group>
+             <b-form-input v-model.trim="post" placeholder="Nuevo comentario" 
+                           @keyup.enter="addPost">
+             </b-form-input>
+      </b-card>
+    -->
+      </b-container>
+    </div>
+
+    <!-- Start running your app -->
+    <script>
+      window.app  = new Vue({
+        el: '#app',
+        data: {
+          name:   '', //nombre de aplicación
+          codApp: '', //código de aplicación
+          level: '', //nivel de aplicación
+          apps: []
+          //query:  '', //búsqueda
+          //blogId: '', //blog activado
+          //blogs:  [], //blogs de la búsqueda
+          //posts:  [], //posts del blog activado
+          //post:   ''  //nuevo post
+        },
+        computed: {
+          showAlert() {
+            return this.name.length > 1 ? true : false
+          }
+        },
+        methods:{
+          getApps(){
+            var self = this
+            // var gQL = `query{searchBlog(q:"${this.query}"){title creator{name}}}`
+            var gQL = `query{getApps{name, codApp}}`
+
+            fetch('/graphql?query=' + encodeURIComponent(gQL))
+            .then(function(r){return r.json()})
+            .then(function(json){
+              self.apps = json.data.getApps
+            })
+            .catch(function(error){console.log(error)})
+          },
+          getApp(level){
+            var self = this
+            
+            this.level = level
+
+            var gQL = `query{}`
+
+            fetch('/graphql?query=' + encodeURIComponent(gQL))
+            .then(function(r){return r.json()})
+            .then(function(json){
+              self.apps = json.data //TO BE COMPLETED : only title and content
+            })
+            .catch(function(error){console.log(error)})
+          },
+          insert(){
+            var self = this
+            /*
+            if(this.app.length == 0) return false
+            if(!this.name) return false
+            */
+            var gQL = `mutation{insert(codApp:"${this.codApp}",
+                                      name:"${this.name}")}`
+            
+            console.log(gQL)
+            fetch('/graphql', { 
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ query: gQL })
+            })
+            .then(function(r){return r.json()})
+            .then(function(json){console.log(json)})
+            .catch(function(error){console.log(error)})  
+          }
+        },
+        mounted(){
+          var self = this
+          var ES = new EventSource('/news') //ruta API con notificaciones
+
+          console.log('Creando listener de eventos de servidor...')
+
+          ES.addEventListener('new-post', function(event){
+            var data = JSON.parse(JSON.parse(event.data)) 
+            //bytes to string -> string to json
+            if (data.name == self.name)
+                self.apps.push(data)
+          }, false)
+        }
+      })
+    </script>
+  </body>
+</html>
