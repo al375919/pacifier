@@ -1,6 +1,8 @@
-"main":"server.js"
+
 
 {
+  
+  "main":"server.js"
   "name": "blogs",
   "version": "1.0.0",
   "description": "Ejemplo de Servicio de BLOGS",
